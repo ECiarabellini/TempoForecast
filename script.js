@@ -51,8 +51,6 @@ var songArtist = document.querySelectorAll(".artist-name");
 var songSpotifyLink = document.querySelectorAll(".spotify-link");
 
 
-
-
 const clientId ='654e967c7c3d45d99004f861a9138b20';
 const clientSecret = 'e54801a1bd7f4b10bb17b8fbb976dc3b';
 
@@ -73,6 +71,8 @@ var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(data => {
     if (data.access_token) {
       const token = data.access_token;
+        
+console.log(token)
 
       return token;
     }
@@ -80,6 +80,7 @@ var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   .catch(error => {
     console.error('Error:', error);
   });
+
 
 
 var tracks = fetch('https://api.spotify.com/v1/search?q=sunny&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + accessToken}})
@@ -99,31 +100,3 @@ for (let i = 0; i < songTitles.length; i++){
 }
 
 };
-
-
-function updateSongCards(jsonFile) {
-    var songsArray = [];
-    for (let i=0; i<6; i++){
-        var title = jsonFile["tracks"]["items"][i]["name"];
-        var artist = jsonFile["tracks"]["items"][i]["album"]["artists"][0]["name"];
-        var songURL = jsonFile["tracks"]["items"][i]["external_urls"]["spotify"];
-        console.log(title, "_", artist, "_", songURL);
-        var song = [title, artist, songURL];
-        songsArray.push(song);
-        console.log(songsArray); 
-    };
-    songTitles.forEach(function(title, index) {
-        title.textContent = songsArray[index][0];
-    });
-
-    songArtist.forEach(function(artist, index) {
-        artist.textContent = songsArray[index][1];
-    });
-
-    songSpotifyLink.forEach(function(link, index) {
-        link.href = songsArray[index][2];
-    });
-}
-
-updateSongCards(jsonFile);
-
