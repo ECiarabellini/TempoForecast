@@ -69,7 +69,7 @@ const authOptions = {
 var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(response => response.json())
   .then(data => {
-    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=snow&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
+    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=cloudy&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
     .then(response => response.json())
   .then(data => {populate(data.tracks.items)})
   
