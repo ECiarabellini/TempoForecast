@@ -69,34 +69,26 @@ const authOptions = {
 var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(response => response.json())
   .then(data => {
-    if (data.access_token) {
-      const token = data.access_token;
-        
-console.log(token)
+    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=snow&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
+    .then(response => response.json())
+  .then(data => {populate(data.tracks.items)})
+  
+  function populate(data){
+    console.log(data)
+  for (let i = 0; i < songTitles.length; i++){
+    songTitles[i].textContent = data[i].name
+    
+    songArt[i].src = data[i].album.images[0].url
+  
+    songArtist[i].textContent  = data[i].artists[0].name
+  
+    songSpotifyLink[i].href  = data[i].external_urls.spotify
+  }
+  
+  };
 
-      return token;
     }
   })
   .catch(error => {
     console.error('Error:', error);
   });
-
-
-
-var tracks = fetch('https://api.spotify.com/v1/search?q=sunny&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + accessToken}})
-  .then(response => response.json())
-.then(data => {populate(data.tracks.items)})
-
-function populate(data){
-  console.log(data)
-for (let i = 0; i < songTitles.length; i++){
-  songTitles[i].textContent = data[i].name
-  
-  songArt[i].src = data[i].album.images[0].url
-
-  songArtist[i].textContent  = data[i].artists[0].name
-
-  songSpotifyLink[i].href  = data[i].external_urls.spotify
-}
-
-};
