@@ -4,6 +4,11 @@
     var weatherForm = document.getElementById('weather-form');
     var weatherDisplay = document.getElementById('weather');
 
+    var cityName = document.getElementById("city");
+    var temperature = document.getElementById("temp");
+    var conditions = document.getElementById("conditions");
+    
+
 
     weatherForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -41,8 +46,8 @@
     }
 
 
-var dateToday = document.getElementById("dateToday");
-dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
+// var dateToday = document.getElementById("dateToday");
+// dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
 
 ////////Display Spotify search results on the page ////
 var songTitles = document.querySelectorAll(".song-title");
@@ -51,10 +56,10 @@ var songArtist = document.querySelectorAll(".artist-name");
 var songSpotifyLink = document.querySelectorAll(".spotify-link");
 
 
-const clientId ='654e967c7c3d45d99004f861a9138b20';
-const clientSecret = 'e54801a1bd7f4b10bb17b8fbb976dc3b';
+var clientId ='654e967c7c3d45d99004f861a9138b20';
+var clientSecret = 'e54801a1bd7f4b10bb17b8fbb976dc3b';
 
-const authOptions = {
+var authOptions = {
   method: 'POST',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,7 +74,7 @@ const authOptions = {
 var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(response => response.json())
   .then(data => {
-    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=cloudy&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
+    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=moderate+rain&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
     .then(response => response.json())
   .then(data => {populate(data.tracks.items)})
   
