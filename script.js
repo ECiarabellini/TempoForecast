@@ -1,4 +1,5 @@
 
+    var dateToday = document.getElementById("dateToday");
 
     var apiKey = 'f2046faa5fb1f80c64e26de7f08054f2'; 
     var weatherForm = document.getElementById('weather-form');
@@ -7,6 +8,7 @@
     var cityName = document.getElementById("city");
     var temperature = document.getElementById("temp");
     var conditions = document.getElementById("conditions");
+    var encodedConditions;
     
 
 
@@ -25,29 +27,36 @@
             .then(data => {
                 updateWeather(data);
             })
-            .catch(error => {
-                console.error('Error fetching weather data:', error);
-            });
+             if (encodedConditions) { (spotifySearch()) 
+          
+            };
+            // .catch(error => {
+            //     console.error('Error fetching weather data:', error);
+            // });
     });
 
     function updateWeather(data) {
-        var cityName = data.name;
-        var temperature = data.main.temp;
-        var conditions = data.weather[0].description;
-        var currentDate = dayjs().format('MMMM D, YYYY h:mma');
 
+      cityName.textContent = data.name;
+      temperature.textContent = data.main.temp;
+      dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
+      conditions.textcontent = data.weather[0].description;
+      encodedConditions = encodeURIComponent(data.weather[0].description);
+      
+      console.log(conditions)
+      console.log(encodedConditions)
+
+      return encodedConditions;
+      
         // Updates the zip code's weather to HTML
-        weatherDisplay.innerHTML = `
-            <h1 class="title">${cityName}</h1>
-            <div class="body is-size-5">Temp: <span id="temp">${temperature}</span>&deg;F</div>
-            <div class="body is-size-5">Conditions: <span id="conditions">${conditions}</span></div>
-            <div class="is-size-5" id="dateToday">${currentDate}</div>
-        `;
+        // weatherDisplay.innerHTML = `
+        //     <h1 class="title">${cityName}</h1>
+        //     <div class="body is-size-5">Temp: <span id="temp">${temperature}</span>&deg;F</div>
+        //     <div class="body is-size-5">Conditions: <span id="conditions">${conditions}</span></div>
+        //     <div class="is-size-5" id="dateToday">${currentDate}</div>
+        // `;
     }
 
-
-// var dateToday = document.getElementById("dateToday");
-// dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
 
 ////////Display Spotify search results on the page ////
 var songTitles = document.querySelectorAll(".song-title");
@@ -71,10 +80,10 @@ var authOptions = {
   }),
 };
 
-var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
+function spotifySearch() { fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(response => response.json())
   .then(data => {
-    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=moderate+rain&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
+    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=' + encodedConditions + '&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
     .then(response => response.json())
   .then(data => {populate(data.tracks.items)})
   
@@ -96,4 +105,5 @@ var accessToken = fetch('https://accounts.spotify.com/api/token', authOptions)
   })
   .catch(error => {
     console.error('Error:', error);
-  });
+  }); 
+};
