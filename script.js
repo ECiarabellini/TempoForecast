@@ -26,27 +26,25 @@
             .then(response => response.json())
             .then(data => {
                 updateWeather(data);
-            })
-             if (encodedConditions) { (spotifySearch()) 
+            }).then ((spotifySearch())) 
           
-            };
-            // .catch(error => {
-            //     console.error('Error fetching weather data:', error);
-            // });
-    });
+            });
+          //   .catch(error => {
+          //  console.error('Error fetching weather data:', error);
+          //   });
+   
 
     function updateWeather(data) {
 
       cityName.textContent = data.name;
       temperature.textContent = data.main.temp;
       dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
-      conditions.textcontent = data.weather[0].description;
+      conditions.textContent = data.weather[0].description;
       encodedConditions = encodeURIComponent(data.weather[0].description);
       
-      console.log(conditions)
-      console.log(encodedConditions)
-
-      return encodedConditions;
+      console.log(data.weather[0].description);
+      console.log(data);
+      console.log(encodedConditions);
       
         // Updates the zip code's weather to HTML
         // weatherDisplay.innerHTML = `
