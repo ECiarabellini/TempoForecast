@@ -1,19 +1,10 @@
-*{
-    /* border: 2px solid black; */ 
-}
-
 html, body {
     height: 100vw;
 }
 
-.column-form,
-form{
-    display: flex;
-    align-items: center;
-}
 
 label{
-    text-wrap: nowrap;
+    text-wrap: wrap;
 }
 
 #zip-code{
@@ -23,4 +14,5 @@ label{
 .card-content{
     padding: 1rem;
 }
+
 
