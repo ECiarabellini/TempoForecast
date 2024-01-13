@@ -9,51 +9,63 @@
     var temperature = document.getElementById("temp");
     var conditions = document.getElementById("conditions");
     var encodedConditions;
-    
-
-
-    weatherForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        console.log("search zip")
-
-        var zipCodeInput = document.getElementById('zip-code');
-        var zipCode = zipCodeInput.value;
-
-        // API request
-        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&appid=${apiKey}&units=imperial`;
-
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                updateWeather(data);
-            }).then ((spotifySearch())) 
-          
-            });
-          //   .catch(error => {
-          //  console.error('Error fetching weather data:', error);
-          //   });
+    var searchHistory = localStorage.getItem('searchHistory') || [];
+    var zipCode;
    
 
-    function updateWeather(data) {
+function fetchWeather() {
 
-      cityName.textContent = data.name;
-      temperature.textContent = data.main.temp;
-      dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
-      conditions.textContent = data.weather[0].description;
-      encodedConditions = encodeURIComponent(data.weather[0].description);
-      
-      console.log(data.weather[0].description);
-      console.log(data);
-      console.log(encodedConditions);
-      
-        // Updates the zip code's weather to HTML
-        // weatherDisplay.innerHTML = `
-        //     <h1 class="title">${cityName}</h1>
-        //     <div class="body is-size-5">Temp: <span id="temp">${temperature}</span>&deg;F</div>
-        //     <div class="body is-size-5">Conditions: <span id="conditions">${conditions}</span></div>
-        //     <div class="is-size-5" id="dateToday">${currentDate}</div>
-        // `;
-    }
+  var zipCodeInput = document.getElementById('zip-code');
+  zipCode = zipCodeInput.value;
+  
+
+  if(zipCode){
+    localStorage.setItem('searchHistory', zipCode);
+  };
+  zipCodeInput.value="";
+  // API request
+  var apiUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&appid=${apiKey}&units=imperial`;
+
+  console.log("apiUril", apiUrl);
+  fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+          updateWeather(data);
+      })
+      .then (spotifySearch()) 
+  };
+
+if (searchHistory){
+  console.log(searchHistory);
+  zipCode = localStorage.getItem('searchHistory');
+  fetchWeather();
+}
+    
+weatherForm.addEventListener('submit',function(event){
+  event.preventDefault();
+  fetchWeather();
+});             
+
+function updateWeather(data) {
+
+  cityName.textContent = data.name;
+  temperature.textContent = data.main.temp;
+  dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
+  conditions.textContent = data.weather[0].description;
+  encodedConditions = encodeURIComponent(data.weather[0].description);
+  
+  console.log(data.weather[0].description);
+  console.log(data);
+  console.log(encodedConditions);
+  
+    // Updates the zip code's weather to HTML
+    // weatherDisplay.innerHTML = `
+    //     <h1 class="title">${cityName}</h1>
+    //     <div class="body is-size-5">Temp: <span id="temp">${temperature}</span>&deg;F</div>
+    //     <div class="body is-size-5">Conditions: <span id="conditions">${conditions}</span></div>
+    //     <div class="is-size-5" id="dateToday">${currentDate}</div>
+    // `;
+}
 
 
 ////////Display Spotify search results on the page ////
@@ -78,10 +90,13 @@ var authOptions = {
   }),
 };
 
+
 function spotifySearch() { fetch('https://accounts.spotify.com/api/token', authOptions)
   .then(response => response.json())
   .then(data => {
-    if (data.access_token) { fetch('https://api.spotify.com/v1/search?q=' + encodedConditions + '&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
+    if (data.access_token) { 
+      console.log("encodedConditions", encodedConditions);
+      fetch('https://api.spotify.com/v1/search?q=' + encodedConditions + '&type=track&limit=6', {method: "GET", headers: {"Authorization": "Bearer " + data.access_token}})
     .then(response => response.json())
   .then(data => {populate(data.tracks.items)})
   
@@ -105,3 +120,4 @@ function spotifySearch() { fetch('https://accounts.spotify.com/api/token', authO
     console.error('Error:', error);
   }); 
 };
+
