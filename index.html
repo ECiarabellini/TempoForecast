@@ -19,19 +19,19 @@
     
     <!-- Weather Section -->
     <section class="hero is-info is-medium pb-5 pt-5 pl-2 pr-2" id="section-weather">
-        <div class="columns">
-            <div class="column column-form">
-                <form id="weather-form">
-                    <label class="label is-size-4 m-2" for="zip-code">Enter a zip code: </label>
+        <div class="columns is-flex-desktop">
+            <div class="column column-form is-flex-desktop">
+                <form id="weather-form" class="is-flex-desktop">
+                    <label class="label is-size-4 m-2" for="zip-code">Enter a zip code to see songs related to the weather: </label>
                     <input class="input is-size-4 m-2 " id="zip-code" type="search" placeholder="Enter a zip code" pattern="\d{5}" title="Enter a valid 5-digit zip code" name="zip-code" required>
                     <button class="button is-primary is-size-4 m-2" type="search">Search</button>
                 </form>
             </div>
             <div id="weather" class="column">
-                <h1 class="title" id="city"> Seattle, WA USA </h1>
+                <h1 class="title" id="city"> </h1>
                 <div class="body is-size-5">Temp:&nbsp;<span id="temp"> </span>&deg;F</div>
                 <div class="body is-size-5">Conditions:&nbsp;<span id="conditions">x</span></div>
-                <div class="is-size-5">Date & Time:<span id="dateToday">x</span></div>
+                <div class="is-size-5">Date & Time:&nbsp;<span id="dateToday">x</span></div>
             </div>
         </div>
     </section>
