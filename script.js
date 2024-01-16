@@ -74,9 +74,12 @@ function spotifySearch() {
     }); 
 };
 
-//// ON INITIAL PAGE LOAD, DISPLAY WEATHER AND TRACKS FOR MOST RECENTLY SEARCHED ZIP CODE (SAVED IN LOCAL STORAGE)
+//// ON INITIAL PAGE LOAD, DISPLAY WEATHER AND TRACKS FOR MOST RECENTLY SEARCHED ZIP CODE (SAVED IN LOCAL STORAGE) OR FOR 48824 IF NONE SAVED
 if (searchHistory){
   zipCode = localStorage.getItem('searchHistory');
+  fetchWeather(zipCode);
+} else {
+  zipCode = 48824;
   fetchWeather(zipCode);
 };
 
