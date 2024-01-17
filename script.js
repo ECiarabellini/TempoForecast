@@ -16,7 +16,7 @@ var clientId ='654e967c7c3d45d99004f861a9138b20';
 var clientSecret = 'e54801a1bd7f4b10bb17b8fbb976dc3b';
 var zipCodeInput = document.getElementById('zip-code');
 
-
+//// Fetch weather conditions from weather api based on a given zip code
 function fetchWeather(zip) {
   var apiUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${weatherAPIkey}&units=imperial`;
   fetch(apiUrl)
@@ -30,14 +30,18 @@ function fetchWeather(zip) {
     }); 
 }
 
+//// Display weather conditions fetched from Weather API on the webpage
 function updateWeather(data) {
   cityName.textContent = data.name;
   temperature.textContent = data.main.temp;
   dateToday.textContent = dayjs().format('M/D/YYYY h:mma');
   conditions.textContent = data.weather[0].description;
-  encodedConditions = encodeURIComponent(data.weather[0].description);
+  encodedConditions = encodeURIComponent(data.weather[0].description);  //puts weather conditions retrieved from Weather API into a format useable in Spotify API URL fetch
 }
 
+
+//// Spotify API requires an access token in addition to clientID and clientSecret in order to fetch their API. Access token is valid for 1 hour.
+/// authOptions is the format needed to fetch the access token
 var authOptions = {
   method: 'POST',
   headers: {
@@ -60,7 +64,7 @@ function spotifySearch() {
         .then(data => {
           console.log(data);
           var details = data.tracks.items;
-          for (let i = 0; i < songTitles.length; i++){
+          for (let i = 0; i < songTitles.length; i++){    //// Display Spotify songs fetched from Spotify API onto the song cards on the webpage
             songTitles[i].textContent = details[i].name
             songArt[i].src = details[i].album.images[0].url
             songArtist[i].textContent  = details[i].artists[0].name
@@ -74,16 +78,15 @@ function spotifySearch() {
     }); 
 };
 
-//// ON INITIAL PAGE LOAD, DISPLAY WEATHER AND TRACKS FOR MOST RECENTLY SEARCHED ZIP CODE (SAVED IN LOCAL STORAGE) OR FOR 48824 IF NONE SAVED
+//// On initial page load, display weather and tracks for most recently searched zip code (saved in local storage) or for 48824 if none saved
 if (searchHistory){
   zipCode = localStorage.getItem('searchHistory');
   fetchWeather(zipCode);
 } else {
-  zipCode = 48824;
-  fetchWeather(zipCode);
+  fetchWeather(48824);
 };
 
-//// WHEN NEW ZIP CODE IS SEARCHED, STORE THAT ZIP CODE IN LOCAL STORATE AND DISPLAY WEATHER WEATHER AND TRACKS FOR THAT ZIP CODE
+//// When a new zip code is searched, store that zip code in local storage and display weather info and related songs for that zip code's weather
 weatherForm.addEventListener('submit',function(event){
   event.preventDefault();
   zipCode = zipCodeInput.value;
