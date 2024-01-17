@@ -1,7 +1,7 @@
 # MSU Coding Bootcamp Group Project #1 TempoForecast
 
 ## Description
-The purpose of this project was to use a CSS framework other than Bootstrap, incorporate the use of 2 server-side APIs, and use client-side storage. We learned how to use Bulma as a framework including page formatting and style elements. We also learned how to nest the API fetch functions so as to prevent them from fetching simultaneously. 
+The purpose of this project was to use a CSS framework other than Bootstrap, incorporate the use of 2 server-side APIs, and use client-side storage. We learned how to use Bulma as a framework including page formatting and style elements. We also learned how to nest the API fetch functions so as to prevent them from fetching simultaneously. The Spotify API requires an access token in addition to clientID and clientSecret in order to fetch their API. Access token is valid for 1 hour.
 
 
 ## Installation
