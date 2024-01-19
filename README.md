@@ -11,6 +11,9 @@ The purpose of this project was to use a CSS framework other than Bootstrap, inc
 ## Usage
 The user enters a zip code in the field at the top of the page. When the user clicks Search, the weather conditions and temperature for that location are displayed. Six spotify search results for the weather conditions for that zip code are displayed as well on the bottom section of the page. The most recent zip code searched is saved in local storage, so when the page loads again, it will pull the weather and songs for that zip code.
 
+![landing view](images/landing.png)
+![Seattle](images/98125.png)
+
 ## Credits
 Collaborators on this project were [Emily Ciarabellini](https://github.com/ECiarabellini), [Emily Coleman](https://github.com/ebcoleman), and [Devin Everitt](https://github.com/Deveritt96). Course instructors Dee Rommes and Jalen Straka provided direction with the authOptions portion of the spotifySearch function which allows us to obtain the access token to use in the Spotify search fetch.
 
